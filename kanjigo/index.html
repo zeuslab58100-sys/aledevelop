@@ -131,7 +131,15 @@ footer{margin:40px 0 0;padding:22px 0 40px;border-top:1px solid var(--line);font
       <div id="paypal"></div>
       <div id="paypalMissing" class="warn hide">Il pagamento con PayPal sarà attivo a breve.</div>
       <p class="note">Pagamento sicuro con PayPal o carta. Dopo il pagamento KanjiGo Web si sblocca subito.
-      Hai già pagato e vuoi usarlo su un altro dispositivo? <a href="mailto:zeuslab58100@gmail.com?subject=KanjiGo%20Web%20-%20accesso">Scrivici</a> con la ricevuta PayPal.</p>
+</p>
+      <details style="margin-top:8px"><summary class="note" style="cursor:pointer"><b>Hai già pagato?</b> Usa KanjiGo Web su questo dispositivo</summary>
+        <div style="display:grid;gap:8px;margin-top:8px">
+          <input id="rsOrder" class="search" style="margin:0;font-size:15px;padding:10px" placeholder="Codice d'ordine PayPal (es. 5O190127TN364715T)">
+          <input id="rsEmail" class="search" style="margin:0;font-size:15px;padding:10px" placeholder="Email del tuo conto PayPal" type="email">
+          <button class="btn small" id="rsBtn">Sblocca questo dispositivo</button>
+          <p class="note" style="margin:0">Problemi? <a href="mailto:zeuslab58100@gmail.com?subject=KanjiGo%20Web%20-%20accesso">Scrivici</a> con la ricevuta PayPal.</p>
+        </div>
+      </details>
     </div>
   </div>
   <p class="note">Preferisci il telefono? <a href="https://apps.apple.com/app/id6833144254" target="_blank" rel="noopener">KanjiGo è anche su App Store per iPhone</a>.</p>
@@ -186,13 +194,13 @@ footer{margin:40px 0 0;padding:22px 0 40px;border-top:1px solid var(--line);font
 <script>
 /* ======== CONFIG ======== */
 const CONFIG = {
-  paypalClientId: "",          // Client ID "Live" di PayPal (developer.paypal.com > App e credenziali)
-  price: "3.99",
+  paypalClientId: "",          // Client ID "Live" di PayPal (pubblico)
+  apiBase: "",                 // indirizzo del guardiano Cloudflare, es. https://kanjigo-web-api.xxx.workers.dev
   currency: "EUR",
 };
 /* ======================== */
 
-const LS_KEY = "kanjigo_web_access_v1", FAV_KEY = "kanjigo_web_fav_v1";
+const LS_KEY = "kanjigo_web_access_v2", FAV_KEY = "kanjigo_web_fav_v1";
 const ls = {
   get(k){ try{ return localStorage.getItem(k) }catch(e){ return null } },
   set(k,v){ try{ localStorage.setItem(k,v) }catch(e){} }
@@ -201,9 +209,9 @@ const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 let K = [], byChar = {}, favs = new Set(JSON.parse(ls.get(FAV_KEY) || "[]"));
 
+function getToken(){ try{ return (JSON.parse(ls.get(LS_KEY)||"null")||{}).token||null }catch(e){ return null } }
 function hasAccess(){
-  const a = ls.get(LS_KEY);
-  if (a) return true;
+  if (getToken()) return true;
   // modalità prova solo in locale (test)
   if (location.hostname === "localhost" && new URLSearchParams(location.search).get("demo") === "1") return true;
   return false;
@@ -249,20 +257,34 @@ async function initLanding(){
     prev.forEach(k=>byChar[k.c]=k);
     $("#previewGrid").innerHTML = prev.map(card).join(""); bindCards($("#previewGrid"));
   }catch(e){}
-  if(!CONFIG.paypalClientId){ $("#paypalMissing").classList.remove("hide"); return; }
+  $("#rsBtn").onclick = async () => {
+    if(!CONFIG.apiBase){ alertBox("Il servizio sarà attivo a breve."); return; }
+    try{
+      const r = await fetch(CONFIG.apiBase + "/api/restore", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({orderID: $("#rsOrder").value, email: $("#rsEmail").value})});
+      const d = await r.json();
+      if(d.token){ ls.set(LS_KEY, JSON.stringify({token:d.token, order:$("#rsOrder").value.trim().toUpperCase(), at:Date.now()})); start(); }
+      else alertBox(d.error==="too_many_devices" ? "Hai già usato questo acquisto su 5 dispositivi. Scrivici se hai bisogno di aiuto." : "Codice d'ordine o email non trovati. Controlla la ricevuta PayPal.");
+    }catch(e){ alertBox("Connessione non riuscita. Riprova tra poco."); }
+  };
+  if(!CONFIG.paypalClientId || !CONFIG.apiBase){ $("#paypalMissing").classList.remove("hide"); return; }
   const s = document.createElement("script");
   s.src = `https://www.paypal.com/sdk/js?client-id=${encodeURIComponent(CONFIG.paypalClientId)}&currency=${CONFIG.currency}&locale=it_IT`;
   s.onload = () => {
     paypal.Buttons({
       style:{layout:"vertical",color:"gold",shape:"rect",label:"pay"},
-      createOrder:(d,a)=>a.order.create({purchase_units:[{description:"KanjiGo Web - accesso completo",amount:{currency_code:CONFIG.currency,value:CONFIG.price}}]}),
-      onApprove:(d,a)=>a.order.capture().then(det=>{
-        if(det && det.status==="COMPLETED"){
-          ls.set(LS_KEY, JSON.stringify({id:det.id, at:Date.now()}));
-          alertBox(`Grazie! Pagamento completato. Il tuo codice d'ordine è <b>${esc(det.id)}</b>: conservalo per usare KanjiGo Web su altri dispositivi.`);
+      createOrder: async () => {
+        const r = await fetch(CONFIG.apiBase + "/api/order", {method:"POST"});
+        const d = await r.json(); if(!d.id) throw new Error("order"); return d.id;
+      },
+      onApprove: async (data) => {
+        const r = await fetch(CONFIG.apiBase + "/api/capture", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({orderID: data.orderID})});
+        const d = await r.json();
+        if (d.token){
+          ls.set(LS_KEY, JSON.stringify({token:d.token, order:d.orderID, at:Date.now()}));
+          alertBox(`Grazie! Pagamento completato.<br>Il tuo <b>codice d'ordine</b> è <b>${esc(d.orderID)}</b>.<br>Conservalo insieme all'email del tuo PayPal${d.email?` (<b>${esc(d.email)}</b>)`:""}: ti servono per usare KanjiGo Web su altri dispositivi (fino a 5).`);
           start();
-        }
-      }),
+        } else alertBox("Il pagamento non risulta completato. Se ti è stato addebitato, scrivici con la ricevuta PayPal.");
+      },
       onError:()=>alertBox("Il pagamento non è andato a buon fine. Riprova oppure scrivici.")
     }).render("#paypal");
   };
@@ -280,7 +302,12 @@ async function initApp(){
   $("#app").classList.remove("hide");
   $("#hdrStatus").innerHTML = `<span class="pill" style="background:#1f9d55">Accesso completo</span>`;
   $("#qCount").textContent = "Caricamento dei kanji…";
-  K = await (await fetch("data/kanji_full.json")).json();
+  try{
+    const local = location.hostname === "localhost" && !getToken();
+    const r = local ? await fetch("data/kanji_full.json") : await fetch(CONFIG.apiBase + "/api/data", {headers:{Authorization:"Bearer "+getToken()}});
+    if(r.status===401){ ls.set(LS_KEY,""); location.reload(); return; }
+    K = await r.json();
+  }catch(e){ $("#qCount").textContent = "Connessione non riuscita. Ricarica la pagina tra poco."; return; }
   byChar = {__full:true}; K.forEach(k=>byChar[k.c]=k);
   document.querySelectorAll(".tab").forEach(b => b.onclick = () => showTab(b.dataset.t));
   $("#q").oninput = doSearch;
