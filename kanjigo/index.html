@@ -136,6 +136,9 @@ footer{margin:40px 0 0;padding:22px 0 40px;border-top:1px solid var(--line);font
       </ul>
     </div>
     <div>
+      <details id="cpBox" style="margin:0 0 12px"><summary class="note" style="cursor:pointer"><b>Hai un codice sconto?</b></summary>
+        <div style="display:flex;gap:8px;margin-top:8px"><input id="cpCode" placeholder="es. KG-AB12CD" autocomplete="off" style="flex:1;padding:10px 12px;border:1px solid var(--line);border-radius:12px;font-size:16px;text-transform:uppercase"><button class="btn small" id="cpBtn" type="button">Applica</button></div>
+        <div id="cpMsg" class="note" style="margin-top:6px"></div></details>
       <div id="paypal"></div>
       <div id="paypalMissing" class="warn hide">Il pagamento con PayPal sarà attivo a breve.</div>
       <p class="note">Pagamento sicuro con PayPal o carta. Dopo il pagamento KanjiGo Web si sblocca subito.
@@ -262,6 +265,7 @@ $("#ov").onclick = e => { if(e.target.id==="ov") closeMd() };
 document.addEventListener("keydown", e => { if(e.key==="Escape") closeMd() });
 
 /* ---- LANDING ---- */
+let COUPON = null;
 async function initLanding(){
   $("#landing").classList.remove("hide");
   try{
@@ -279,6 +283,20 @@ async function initLanding(){
       else alertBox("Codice d'ordine o email non trovati. Controlla la ricevuta PayPal.");
     }catch(e){ alertBox("Connessione non riuscita. Riprova tra poco."); }
   };
+  $("#cpBtn").onclick = async () => {
+    const code = $("#cpCode").value.trim().toUpperCase(); if(!code) return;
+    if(!CONFIG.apiBase){ $("#cpMsg").textContent = "Il servizio sarà attivo a breve."; return; }
+    try{
+      const r = await fetch(CONFIG.apiBase + "/api/coupon", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({code})});
+      const d = await r.json();
+      if(d.code){
+        COUPON = d.code;
+        const pr = d.price.replace(".", ",");
+        $("#cpMsg").innerHTML = `Codice applicato: sconto del <b>${d.pct}%</b>. Paghi <b>${pr} €</b>.`;
+        document.querySelector(".price .amt").innerHTML = `<s style="color:var(--grey);font-size:.6em">3,99 €</s> ${pr} € <small>una volta sola</small>`;
+      } else { COUPON = null; $("#cpMsg").textContent = "Codice non valido o già usato."; }
+    }catch(e){ $("#cpMsg").textContent = "Connessione non riuscita. Riprova."; }
+  };
   if(!CONFIG.paypalClientId || !CONFIG.apiBase){ $("#paypalMissing").classList.remove("hide"); return; }
   const s = document.createElement("script");
   s.src = `https://www.paypal.com/sdk/js?client-id=${encodeURIComponent(CONFIG.paypalClientId)}&currency=${CONFIG.currency}&locale=it_IT`;
@@ -287,7 +305,7 @@ async function initLanding(){
     ppsdk.Buttons({
       style:{layout:"vertical",color:"gold",shape:"rect",label:"pay"},
       createOrder: async () => {
-        const r = await fetch(CONFIG.apiBase + "/api/order", {method:"POST", headers:{"Content-Type":"application/json"}, body:"{}"});
+        const r = await fetch(CONFIG.apiBase + "/api/order", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(COUPON ? {coupon: COUPON} : {})});
         const d = await r.json(); if(!d.id) throw new Error("order"); return d.id;
       },
       onApprove: async (data) => {
