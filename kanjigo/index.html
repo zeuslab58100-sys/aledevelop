@@ -282,8 +282,9 @@ async function initLanding(){
   if(!CONFIG.paypalClientId || !CONFIG.apiBase){ $("#paypalMissing").classList.remove("hide"); return; }
   const s = document.createElement("script");
   s.src = `https://www.paypal.com/sdk/js?client-id=${encodeURIComponent(CONFIG.paypalClientId)}&currency=${CONFIG.currency}&locale=it_IT`;
+  s.setAttribute("data-namespace","ppsdk");
   s.onload = () => {
-    paypal.Buttons({
+    ppsdk.Buttons({
       style:{layout:"vertical",color:"gold",shape:"rect",label:"pay"},
       createOrder: async () => {
         const r = await fetch(CONFIG.apiBase + "/api/order", {method:"POST", headers:{"Content-Type":"application/json"}, body:"{}"});
@@ -305,10 +306,10 @@ async function initLanding(){
 }
 /* dispositivo in più: 1 € con PayPal */
 function offerExtra(order, email){
-  const ready = CONFIG.paypalClientId && CONFIG.apiBase && window.paypal;
+  const ready = CONFIG.paypalClientId && CONFIG.apiBase && window.ppsdk;
   alertBox(`Il tuo acquisto include <b>2 dispositivi</b> e li hai già usati.<br>Puoi aggiungere <b>questo dispositivo</b> per <b>1 € (IVA inclusa)</b>.<div id="payExtra" style="margin-top:14px"></div><span class="note">Problemi? Scrivi a <b>zeuslab58100@gmail.com</b> con l'email del tuo PayPal.</span>`);
   if(!ready){ $("#payExtra").textContent = "Il pagamento sarà attivo a breve."; return; }
-  paypal.Buttons({
+  ppsdk.Buttons({
     style:{layout:"vertical",color:"gold",shape:"rect",label:"pay"},
     createOrder: async () => {
       const r = await fetch(CONFIG.apiBase + "/api/order", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({type:"extra", orderID:order, email})});
