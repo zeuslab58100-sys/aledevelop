@@ -150,7 +150,7 @@ footer{margin:40px 0 0;padding:22px 0 40px;border-top:1px solid var(--line);font
   <div class="feats">
     <div class="feat"><div class="ic">漢</div><h3>13.108 kanji</h3><p>2.386 kanji JLPT (N5–N1) spiegati in italiano, più tutti gli altri con significato in inglese.</p></div>
     <div class="feat"><div class="ic">語</div><h3>Parole e composizione</h3><p>Oltre 7.800 parole composte con lettura, romaji e traduzione, e la composizione grafica di ogni kanji.</p></div>
-    <div class="feat"><div class="ic">試</div><h3>Quiz e flashcard</h3><p>Quiz su significati, letture ON/KUN e parole composte, quiz sui tuoi kanji, flashcard e progressi salvati. In italiano, inglese, francese e spagnolo.</p></div>
+    <div class="feat"><div class="ic">試</div><h3>Quiz e flashcard</h3><p>Quiz su significati, letture ON/KUN e parole composte, quiz sui tuoi kanji, flashcard e progressi salvati. In italiano, inglese, francese, spagnolo e tedesco.</p></div>
   </div>
 
   <h2>Prova 3 kanji gratis</h2>
@@ -166,7 +166,7 @@ footer{margin:40px 0 0;padding:22px 0 40px;border-top:1px solid var(--line);font
         <li>Livelli JLPT N5, N4, N3, N2, N1</li>
         <li>Quiz di significato, letture e parole composte</li>
         <li>Flashcard, i tuoi kanji e progressi salvati</li>
-        <li>In italiano, English, français, español</li>
+        <li>In italiano, English, français, español, Deutsch</li>
         <li>Accesso per sempre su 2 dispositivi (ogni altro 1 €)</li>
       </ul>
     </div>
@@ -205,7 +205,7 @@ footer{margin:40px 0 0;padding:22px 0 40px;border-top:1px solid var(--line);font
   <p>Questo lavoro usa KANJIDIC2 e JMdict dell'<a href="https://www.edrdg.org/" target="_blank" rel="noopener">Electronic Dictionary Research and Development Group (EDRDG)</a>, usati in conformità con la <a href="https://www.edrdg.org/edrdg/licence.html" target="_blank" rel="noopener">licenza del Gruppo</a> (CC BY-SA 4.0), tramite <a href="https://github.com/scriptin/jmdict-simplified" target="_blank" rel="noopener">jmdict-simplified</a>, e vocaboli da Open JLPT. Le traduzioni italiane sono adattate da KanjiGo e distribuite con la stessa licenza (CC BY-SA 4.0). Alcune traduzioni sono in revisione. Composizione grafica dei kanji: <a href="https://kanjivg.tagaini.net/" target="_blank" rel="noopener">KanjiVG</a> (CC BY-SA 3.0).</p>
 </div></footer>
 
-<script src="app.js?v=2"></script>
+<script src="app.js?v=3"></script>
 <script>
 /* ======== CONFIG ======== */
 const CONFIG = {
@@ -319,7 +319,7 @@ async function initApp(){
   let data;
   try{
     const local = location.hostname === "localhost" && !getToken();
-    const r = local ? await fetch("data/kanji_full.json") : await fetch(CONFIG.apiBase + "/api/data?v=2", {headers:{Authorization:"Bearer "+getToken()}});
+    const r = local ? await fetch("data/kanji_full.json") : await fetch(CONFIG.apiBase + "/api/data?v=3", {headers:{Authorization:"Bearer "+getToken()}});
     if(r.status===401){ ls.set(LS_KEY,""); location.reload(); return; }
     data = await r.json();
   }catch(e){ $("#app").innerHTML = `<p class="count" style="margin-top:20px">${KG.t("connFail")}</p>`; return; }
