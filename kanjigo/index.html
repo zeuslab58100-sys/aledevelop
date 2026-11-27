@@ -124,7 +124,7 @@ footer{margin:40px 0 0;padding:22px 0 40px;border-top:1px solid var(--line);font
         <li>Tutti i 13.108 kanji, ricerca in italiano</li>
         <li>Livelli JLPT N5, N4, N3, N2, N1</li>
         <li>Quiz, flashcard e preferiti</li>
-        <li>Accesso per sempre su questo browser</li>
+        <li>Accesso per sempre su 2 dispositivi (ogni altro 1 €)</li>
       </ul>
     </div>
     <div>
@@ -263,7 +263,8 @@ async function initLanding(){
       const r = await fetch(CONFIG.apiBase + "/api/restore", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({orderID: $("#rsOrder").value, email: $("#rsEmail").value})});
       const d = await r.json();
       if(d.token){ ls.set(LS_KEY, JSON.stringify({token:d.token, order:$("#rsOrder").value.trim().toUpperCase(), at:Date.now()})); start(); }
-      else alertBox(d.error==="too_many_devices" ? "Hai già usato questo acquisto su tutti i dispositivi inclusi. Per aggiungerne un altro scrivi a <b>zeuslab58100@gmail.com</b> indicando l'email del tuo PayPal: te lo sblocchiamo noi." : "Codice d'ordine o email non trovati. Controlla la ricevuta PayPal.");
+      else if(d.error==="too_many_devices") offerExtra($("#rsOrder").value, $("#rsEmail").value);
+      else alertBox("Codice d'ordine o email non trovati. Controlla la ricevuta PayPal.");
     }catch(e){ alertBox("Connessione non riuscita. Riprova tra poco."); }
   };
   if(!CONFIG.paypalClientId || !CONFIG.apiBase){ $("#paypalMissing").classList.remove("hide"); return; }
@@ -273,7 +274,7 @@ async function initLanding(){
     paypal.Buttons({
       style:{layout:"vertical",color:"gold",shape:"rect",label:"pay"},
       createOrder: async () => {
-        const r = await fetch(CONFIG.apiBase + "/api/order", {method:"POST"});
+        const r = await fetch(CONFIG.apiBase + "/api/order", {method:"POST", headers:{"Content-Type":"application/json"}, body:"{}"});
         const d = await r.json(); if(!d.id) throw new Error("order"); return d.id;
       },
       onApprove: async (data) => {
@@ -281,7 +282,7 @@ async function initLanding(){
         const d = await r.json();
         if (d.token){
           ls.set(LS_KEY, JSON.stringify({token:d.token, order:d.orderID, at:Date.now()}));
-          alertBox(`Grazie! Pagamento completato.<br>Il tuo <b>codice d'ordine</b> è <b>${esc(d.orderID)}</b>.<br>Conservalo insieme all'email del tuo PayPal${d.email?` (<b>${esc(d.email)}</b>)`:""}: ti servono per usare KanjiGo Web su un secondo dispositivo. Per altri dispositivi scrivi a <b>zeuslab58100@gmail.com</b>.`);
+          alertBox(`Grazie! Pagamento completato.<br>Il tuo <b>codice d'ordine</b> è <b>${esc(d.orderID)}</b>.<br>Conservalo insieme all'email del tuo PayPal${d.email?` (<b>${esc(d.email)}</b>)`:""}: ti servono per usare KanjiGo Web su un secondo dispositivo (ogni dispositivo in più costa 1 €).`);
           start();
         } else alertBox("Il pagamento non risulta completato. Se ti è stato addebitato, scrivici con la ricevuta PayPal.");
       },
@@ -289,6 +290,26 @@ async function initLanding(){
     }).render("#paypal");
   };
   document.head.appendChild(s);
+}
+/* dispositivo in più: 1 € con PayPal */
+function offerExtra(order, email){
+  const ready = CONFIG.paypalClientId && CONFIG.apiBase && window.paypal;
+  alertBox(`Il tuo acquisto include <b>2 dispositivi</b> e li hai già usati.<br>Puoi aggiungere <b>questo dispositivo</b> per <b>1 € (IVA inclusa)</b>.<div id="payExtra" style="margin-top:14px"></div><span class="note">Problemi? Scrivi a <b>zeuslab58100@gmail.com</b> con l'email del tuo PayPal.</span>`);
+  if(!ready){ $("#payExtra").textContent = "Il pagamento sarà attivo a breve."; return; }
+  paypal.Buttons({
+    style:{layout:"vertical",color:"gold",shape:"rect",label:"pay"},
+    createOrder: async () => {
+      const r = await fetch(CONFIG.apiBase + "/api/order", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({type:"extra", orderID:order, email})});
+      const d = await r.json(); if(!d.id) throw new Error("order"); return d.id;
+    },
+    onApprove: async (data) => {
+      const r = await fetch(CONFIG.apiBase + "/api/capture", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({orderID: data.orderID})});
+      const d = await r.json();
+      if(d.token){ ls.set(LS_KEY, JSON.stringify({token:d.token, order:d.orderID, at:Date.now()})); closeMd(); start(); }
+      else alertBox("Il pagamento non risulta completato. Se ti è stato addebitato, scrivici con la ricevuta PayPal.");
+    },
+    onError:()=>alertBox("Il pagamento non è andato a buon fine. Riprova oppure scrivici.")
+  }).render("#payExtra");
 }
 function alertBox(html){
   $("#md").innerHTML = `<button class="x" aria-label="Chiudi" onclick="closeMd()">×</button><h2 style="margin-top:4px">KanjiGo Web</h2><p>${html}</p><button class="btn" onclick="closeMd()">OK</button>`;
