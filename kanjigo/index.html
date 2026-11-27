@@ -85,6 +85,39 @@ h2{font-size:26px;margin:30px 0 12px}
 .opt.ko{border-color:var(--red);background:#fde8e8}
 .flash{background:#fff;border:1px solid var(--line);border-radius:24px;min-height:300px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;padding:20px;text-align:center}
 footer{margin:40px 0 0;padding:22px 0 40px;border-top:1px solid var(--line);font-size:12px;color:var(--grey)}
+/* app v2 */
+.toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:14px}
+.toolbar .tabs{margin:4px 0}
+.lang{font-size:14px;color:var(--grey);display:flex;align-items:center;gap:6px}
+.lang select{font-size:15px;padding:6px 8px;border-radius:10px;border:1px solid var(--line);background:#fff}
+.tab.small{padding:6px 11px;font-size:14px}
+.kc{position:relative}.kc .st{position:absolute;top:4px;right:8px;color:#e0a100;font-size:13px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0}
+.mode{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px 16px;margin:12px 0}
+.mode h3{margin:0 0 4px;font-size:18px}.mode .note{margin:2px 0 6px}
+.saved{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:#fff8e8;border:1px dashed #e6c479;border-radius:12px;padding:8px 10px;margin-top:8px;font-size:14px}
+.saved span{flex:1;min-width:160px}
+.chips{display:flex;gap:14px;flex-wrap:wrap;margin:6px 0}.chips label{cursor:pointer;font-weight:600}
+.hrow{display:flex;gap:10px;align-items:baseline;border-bottom:1px dashed var(--line);padding:6px 0;font-size:14px}.hrow span:first-child{flex:1}
+.qhead{display:flex;justify-content:space-between;align-items:center;font-size:16px;margin:10px 0 6px}
+.okc{color:var(--ok);font-weight:700}.koc{color:var(--red);font-weight:700}
+.bar{height:8px;background:#eadfd3;border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;background:var(--red)}
+.qp{text-align:center;color:var(--grey);margin:14px 0 0}
+.qm{font-size:28px;font-weight:800;text-align:center;margin:14px 0 18px}
+.kopts .opt{font-size:34px;font-family:"Noto Serif JP",serif}
+.opt:disabled{cursor:default;color:var(--ink)}
+.fb{text-align:center;font-weight:800;font-size:18px;margin:14px 0 4px}.fbi{text-align:center;margin:0 0 12px}.jp{font-family:"Noto Serif JP",serif;font-size:20px}
+.result{background:#fff;border:1px solid var(--line);border-radius:22px;padding:22px;text-align:center;margin:12px 0}.result .sc{font-size:54px;font-weight:800}
+.flash{min-height:260px;gap:8px;cursor:default}
+.ans{width:100%;max-width:440px;border:1px dashed var(--line);border-radius:14px;padding:10px 12px;cursor:pointer;text-align:left;background:#fffdf9}.ans.open{border-style:solid;background:#fff}
+.ans h4{margin:0 0 2px;font-size:12px;color:var(--grey);text-transform:uppercase;letter-spacing:.04em}
+.parts{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}
+.part{display:flex;flex-direction:column;align-items:center;gap:2px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:8px 10px;min-width:96px;max-width:150px;cursor:pointer;font:inherit}
+.part span{font-size:34px;font-family:"Noto Serif JP",serif;line-height:1.1}.part small{font-size:12px;text-align:center}.part em{font-size:11px;color:var(--grey);font-style:normal}
+.part:disabled{cursor:default;opacity:.85}
+.rd{display:inline-block;margin:0 14px 4px 0}.rd small{color:var(--grey);font-size:13px}
+.word .wm{flex:1}.fw{border:0;background:none;font-size:22px;cursor:pointer;color:#c9a227}.fw.on{color:#e0a100}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#1c1b1a;color:#fff;padding:10px 16px;border-radius:12px;opacity:0;transition:opacity .2s;z-index:99;pointer-events:none}#toast.on{opacity:.95}
 .hide{display:none!important}
 @media(max-width:760px){.hero{grid-template-columns:1fr;padding-top:24px}.hero h1{font-size:30px}.feats{grid-template-columns:1fr}.price{grid-template-columns:1fr}.opts{grid-template-columns:1fr}}
 .stores{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:14px 0 0;font-size:14px;color:var(--grey)}.stores>span:first-child{width:100%}
@@ -107,7 +140,7 @@ footer{margin:40px 0 0;padding:22px 0 40px;border-top:1px solid var(--line);font
     <div>
       <span class="pill">Nuovo · dal browser</span>
       <h1>Impara i <em>kanji giapponesi</em> in italiano, dal computer</h1>
-      <p>Significati in italiano, letture on/kun, parole composte, quiz e flashcard dal livello JLPT N5 al N1. Funziona su PC, Mac, tablet e telefono, senza installare niente.</p>
+      <p>Significati in italiano, letture ON/KUN, parole composte, composizione dei kanji, quiz e flashcard dal livello JLPT N5 al N1. Funziona su PC, Mac, tablet e telefono, senza installare niente.</p>
       <a href="#prezzo" class="btn">Sblocca KanjiGo Web · 3,99 €</a>
       <p class="note" style="margin-top:10px">Pagamento unico, IVA inclusa, nessun abbonamento.</p>
     </div>
@@ -116,8 +149,8 @@ footer{margin:40px 0 0;padding:22px 0 40px;border-top:1px solid var(--line);font
 
   <div class="feats">
     <div class="feat"><div class="ic">漢</div><h3>13.108 kanji</h3><p>2.386 kanji JLPT (N5–N1) spiegati in italiano, più tutti gli altri con significato in inglese.</p></div>
-    <div class="feat"><div class="ic">語</div><h3>Parole composte</h3><p>Per ogni kanji le parole più utili, con lettura in hiragana, romaji e traduzione.</p></div>
-    <div class="feat"><div class="ic">試</div><h3>Quiz e flashcard</h3><p>Ripassa per livello con quiz a scelta multipla e flashcard da girare. Salva i tuoi preferiti.</p></div>
+    <div class="feat"><div class="ic">語</div><h3>Parole e composizione</h3><p>Oltre 7.800 parole composte con lettura, romaji e traduzione, e la composizione grafica di ogni kanji.</p></div>
+    <div class="feat"><div class="ic">試</div><h3>Quiz e flashcard</h3><p>Quiz su significati, letture ON/KUN e parole composte, quiz sui tuoi kanji, flashcard e progressi salvati. In italiano, inglese, francese e spagnolo.</p></div>
   </div>
 
   <h2>Prova 3 kanji gratis</h2>
@@ -131,7 +164,9 @@ footer{margin:40px 0 0;padding:22px 0 40px;border-top:1px solid var(--line);font
       <ul>
         <li>Tutti i 13.108 kanji, ricerca in italiano</li>
         <li>Livelli JLPT N5, N4, N3, N2, N1</li>
-        <li>Quiz, flashcard e preferiti</li>
+        <li>Quiz di significato, letture e parole composte</li>
+        <li>Flashcard, i tuoi kanji e progressi salvati</li>
+        <li>In italiano, English, français, español</li>
         <li>Accesso per sempre su 2 dispositivi (ogni altro 1 €)</li>
       </ul>
     </div>
@@ -159,53 +194,18 @@ footer{margin:40px 0 0;padding:22px 0 40px;border-top:1px solid var(--line);font
 </main>
 
 <!-- ============ APP (pagato) ============ -->
-<main id="app" class="wrap hide">
-  <div class="tabs" id="tabs">
-    <button class="tab on" data-t="cerca">🔍 Cerca</button>
-    <button class="tab" data-t="livelli">📚 Livelli</button>
-    <button class="tab" data-t="quiz">✏️ Quiz</button>
-    <button class="tab" data-t="flash">🃏 Flashcard</button>
-    <button class="tab" data-t="pref">⭐ Preferiti</button>
-  </div>
-
-  <section id="t-cerca">
-    <input id="q" class="search" placeholder="Cerca in italiano (es. gatto), in giapponese (猫, ねこ) o in romaji (neko)" autocomplete="off">
-    <p id="qCount" class="count"></p>
-    <div id="qGrid" class="grid"></div>
-  </section>
-
-  <section id="t-livelli" class="hide">
-    <div class="lvls" id="lvBtns"></div>
-    <p id="lvCount" class="count"></p>
-    <div id="lvGrid" class="grid"></div>
-    <button id="lvMore" class="btn ghost more hide">Mostra altri</button>
-  </section>
-
-  <section id="t-quiz" class="hide">
-    <div class="lvls" id="qzBtns"></div>
-    <div id="qzBox"></div>
-  </section>
-
-  <section id="t-flash" class="hide">
-    <div class="lvls" id="fcBtns"></div>
-    <div id="fcBox"></div>
-  </section>
-
-  <section id="t-pref" class="hide">
-    <p id="prCount" class="count"></p>
-    <div id="prGrid" class="grid"></div>
-  </section>
-</main>
+<main id="app" class="wrap hide"></main>
 
 <div class="ov" id="ov"><div class="md" id="md"></div></div>
 
-<section class="wrap" style="margin-top:30px"><h2>Kanji N5 gratis</h2>
+<section class="wrap" id="n5free" style="margin-top:30px"><h2>Kanji N5 gratis</h2>
 <p>Inizi a studiare? Guarda gratis <a href="kanji/"><b>tutti gli 84 kanji del livello JLPT N5</b></a> con significato in italiano, letture e parole composte: per esempio <a href="kanji/giorno-65e5.html">日 (giorno)</a>, <a href="kanji/persona-4eba.html">人 (persona)</a>, <a href="kanji/acqua-6c34.html">水 (acqua)</a>, <a href="kanji/studiare-5b66.html">学 (studiare)</a>.</p></section>
 <footer><div class="wrap">
   <p>KanjiGo Web · © AleDevelop · <a href="../">Tutte le app</a> · <a href="mailto:zeuslab58100@gmail.com">Contatti</a></p>
-  <p>Questo lavoro usa KANJIDIC2 e JMdict dell'<a href="https://www.edrdg.org/" target="_blank" rel="noopener">Electronic Dictionary Research and Development Group (EDRDG)</a>, usati in conformità con la <a href="https://www.edrdg.org/edrdg/licence.html" target="_blank" rel="noopener">licenza del Gruppo</a> (CC BY-SA 4.0), tramite <a href="https://github.com/scriptin/jmdict-simplified" target="_blank" rel="noopener">jmdict-simplified</a>, e vocaboli da Open JLPT. Le traduzioni italiane sono adattate da KanjiGo e distribuite con la stessa licenza (CC BY-SA 4.0). Alcune traduzioni sono in revisione.</p>
+  <p>Questo lavoro usa KANJIDIC2 e JMdict dell'<a href="https://www.edrdg.org/" target="_blank" rel="noopener">Electronic Dictionary Research and Development Group (EDRDG)</a>, usati in conformità con la <a href="https://www.edrdg.org/edrdg/licence.html" target="_blank" rel="noopener">licenza del Gruppo</a> (CC BY-SA 4.0), tramite <a href="https://github.com/scriptin/jmdict-simplified" target="_blank" rel="noopener">jmdict-simplified</a>, e vocaboli da Open JLPT. Le traduzioni italiane sono adattate da KanjiGo e distribuite con la stessa licenza (CC BY-SA 4.0). Alcune traduzioni sono in revisione. Composizione grafica dei kanji: <a href="https://kanjivg.tagaini.net/" target="_blank" rel="noopener">KanjiVG</a> (CC BY-SA 3.0).</p>
 </div></footer>
 
+<script src="app.js?v=2"></script>
 <script>
 /* ======== CONFIG ======== */
 const CONFIG = {
@@ -222,56 +222,22 @@ const ls = {
 };
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-let K = [], byChar = {}, favs = new Set(JSON.parse(ls.get(FAV_KEY) || "[]"));
-
 function getToken(){ try{ return (JSON.parse(ls.get(LS_KEY)||"null")||{}).token||null }catch(e){ return null } }
 function hasAccess(){
   if (getToken()) return true;
-  // modalità prova solo in locale (test)
   if (location.hostname === "localhost" && new URLSearchParams(location.search).get("demo") === "1") return true;
   return false;
 }
-
-/* ---- conversione romaji -> hiragana (semplice) ---- */
-const R2H = (()=>{const t={a:"あ",i:"い",u:"う",e:"え",o:"お",ka:"か",ki:"き",ku:"く",ke:"け",ko:"こ",sa:"さ",shi:"し",si:"し",su:"す",se:"せ",so:"そ",ta:"た",chi:"ち",ti:"ち",tsu:"つ",tu:"つ",te:"て",to:"と",na:"な",ni:"に",nu:"ぬ",ne:"ね",no:"の",ha:"は",hi:"ひ",fu:"ふ",hu:"ふ",he:"へ",ho:"ほ",ma:"ま",mi:"み",mu:"む",me:"め",mo:"も",ya:"や",yu:"ゆ",yo:"よ",ra:"ら",ri:"り",ru:"る",re:"れ",ro:"ろ",wa:"わ",wo:"を",n:"ん",ga:"が",gi:"ぎ",gu:"ぐ",ge:"げ",go:"ご",za:"ざ",ji:"じ",zi:"じ",zu:"ず",ze:"ぜ",zo:"ぞ",da:"だ",de:"で",do:"ど",ba:"ば",bi:"び",bu:"ぶ",be:"べ",bo:"ぼ",pa:"ぱ",pi:"ぴ",pu:"ぷ",pe:"ぺ",po:"ぽ",kya:"きゃ",kyu:"きゅ",kyo:"きょ",sha:"しゃ",shu:"しゅ",sho:"しょ",cha:"ちゃ",chu:"ちゅ",cho:"ちょ",nya:"にゃ",nyu:"にゅ",nyo:"にょ",hya:"ひゃ",hyu:"ひゅ",hyo:"ひょ",mya:"みゃ",myu:"みゅ",myo:"みょ",rya:"りゃ",ryu:"りゅ",ryo:"りょ",gya:"ぎゃ",gyu:"ぎゅ",gyo:"ぎょ",ja:"じゃ",ju:"じゅ",jo:"じょ",bya:"びゃ",byu:"びゅ",byo:"びょ",pya:"ぴゃ",pyu:"ぴゅ",pyo:"ぴょ"};
-  return s=>{s=s.toLowerCase();let o="",i=0;while(i<s.length){if(i+1<s.length&&s[i]===s[i+1]&&!"aeioun".includes(s[i])){o+="っ";i++;continue}let hit=false;for(const L of [3,2,1]){const p=s.substr(i,L);if(t[p]&&!(p==="n"&&i+1<s.length&&"aeiouy".includes(s[i+1]))){o+=t[p];i+=L;hit=true;break}}if(!hit){o+=s[i];i++}}return o}})();
-const kata2hira = s => s.replace(/[ァ-ヶ]/g, c => String.fromCharCode(c.charCodeAt(0)-0x60));
-const norm = s => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
-
-/* ---- render ---- */
-function card(k){
-  return `<div class="kc" data-c="${esc(k.c)}"><div class="lv">${k.l||"&nbsp;"}</div><div class="ch">${esc(k.c)}</div><div class="mn">${esc((k.m||[])[0]||"")}</div></div>`;
-}
-function bindCards(root){
-  root.querySelectorAll(".kc").forEach(el => el.onclick = () => openKanji(el.dataset.c));
-}
-function openKanji(c){
-  const k = byChar[c]; if(!k) return;
-  const isFav = favs.has(c);
-  const words = (k.w||[]).map(w=>`<div class="word"><span class="w">${esc(w[0])}</span><span><span class="r">${esc(w[1])} · ${esc(w[2])}</span><br>${esc(w[3])} <span class="tag">${esc(w[4])}</span></span></div>`).join("");
-  $("#md").innerHTML = `<button class="x" aria-label="Chiudi" onclick="closeMd()">×</button>
-    <div class="big">${esc(k.c)}</div>
-    <div class="meta">${k.l?`<span class="tag"><b>JLPT ${k.l}</b></span>`:`<span class="tag">Fuori JLPT</span>`}${k.s?`<span class="tag">${k.s} tratti</span>`:""}${k.f?`<span class="tag">Frequenza #${k.f}</span>`:""}</div>
-    <div class="box"><h4>Significato</h4><div class="v">${esc((k.m||[]).join(", "))}${k.e?'<span class="en">in inglese</span>':""}</div></div>
-    <div class="box"><h4>Letture on (cinese)</h4><div class="v">${esc((k.o||[]).join("、")||"—")}</div></div>
-    <div class="box"><h4>Letture kun (giapponese)</h4><div class="v">${esc((k.k||[]).join("、")||"—")}</div></div>
-    ${words?`<div class="box"><h4>Parole composte</h4>${words}</div>`:""}
-    ${byChar.__full?`<button class="btn small ${isFav?"":"ghost"}" id="favBtn">${isFav?"★ Nei preferiti":"☆ Aggiungi ai preferiti"}</button>`:`<a href="#prezzo" class="btn small" onclick="closeMd()">Sblocca tutti i kanji · 3,99 €</a>`}`;
-  const fb = $("#favBtn"); if (fb) fb.onclick = () => { isFav?favs.delete(c):favs.add(c); ls.set(FAV_KEY, JSON.stringify([...favs])); openKanji(c); if(cur==="pref") renderPref(); };
-  $("#ov").classList.add("on");
-}
-function closeMd(){ $("#ov").classList.remove("on") }
-$("#ov").onclick = e => { if(e.target.id==="ov") closeMd() };
-document.addEventListener("keydown", e => { if(e.key==="Escape") closeMd() });
+const closeMd = () => KG.closeMd();
 
 /* ---- LANDING ---- */
 let COUPON = null;
 async function initLanding(){
   $("#landing").classList.remove("hide");
   try{
-    const prev = await (await fetch("data/kanji_preview.json")).json();
-    prev.forEach(k=>byChar[k.c]=k);
-    $("#previewGrid").innerHTML = prev.map(card).join(""); bindCards($("#previewGrid"));
+    const prev = await (await fetch("data/kanji_preview.json?v=2")).json();
+    KG.setLang("it"); KG.load(prev, false);
+    $("#previewGrid").innerHTML = prev.K.map(KG.card).join(""); KG.bindCards($("#previewGrid"));
   }catch(e){}
   $("#rsBtn").onclick = async () => {
     if(!CONFIG.apiBase){ alertBox("Il servizio sarà attivo a breve."); return; }
@@ -342,133 +308,23 @@ function offerExtra(order, email){
     onError:()=>alertBox("Il pagamento non è andato a buon fine. Riprova oppure scrivici.")
   }).render("#payExtra");
 }
-function alertBox(html){
-  $("#md").innerHTML = `<button class="x" aria-label="Chiudi" onclick="closeMd()">×</button><h2 style="margin-top:4px">KanjiGo Web</h2><p>${html}</p><button class="btn" onclick="closeMd()">OK</button>`;
-  $("#ov").classList.add("on");
-}
+function alertBox(html){ KG.dialog(html, [["OK", null, 1]]); }
 
 /* ---- APP ---- */
-let cur = "cerca";
 async function initApp(){
   $("#landing").classList.add("hide");
   $("#app").classList.remove("hide");
-  $("#hdrStatus").innerHTML = `<span class="pill" style="background:#1f9d55">Accesso completo</span>`;
-  $("#qCount").textContent = "Caricamento dei kanji…";
+  $("#hdrStatus").innerHTML = `<span class="pill" style="background:#1f9d55">✓</span>`;
+  $("#app").innerHTML = `<p class="count" style="margin-top:20px">${KG.t("loading")}</p>`;
+  let data;
   try{
     const local = location.hostname === "localhost" && !getToken();
-    const r = local ? await fetch("data/kanji_full.json") : await fetch(CONFIG.apiBase + "/api/data", {headers:{Authorization:"Bearer "+getToken()}});
+    const r = local ? await fetch("data/kanji_full.json") : await fetch(CONFIG.apiBase + "/api/data?v=2", {headers:{Authorization:"Bearer "+getToken()}});
     if(r.status===401){ ls.set(LS_KEY,""); location.reload(); return; }
-    K = await r.json();
-  }catch(e){ $("#qCount").textContent = "Connessione non riuscita. Ricarica la pagina tra poco."; return; }
-  byChar = {__full:true}; K.forEach(k=>byChar[k.c]=k);
-  document.querySelectorAll(".tab").forEach(b => b.onclick = () => showTab(b.dataset.t));
-  $("#q").oninput = doSearch;
-  const L = ["N5","N4","N3","N2","N1","Altri"];
-  $("#lvBtns").innerHTML = L.map(l=>`<button class="tab" data-l="${l}">${l}</button>`).join("");
-  $("#lvBtns").querySelectorAll(".tab").forEach(b=>b.onclick=()=>showLevel(b.dataset.l));
-  const Q = ["N5","N4","N3","N2","N1"];
-  $("#qzBtns").innerHTML = Q.map(l=>`<button class="tab" data-l="${l}">Quiz ${l}</button>`).join("");
-  $("#qzBtns").querySelectorAll(".tab").forEach(b=>b.onclick=()=>startQuiz(b.dataset.l));
-  $("#fcBtns").innerHTML = [...Q,"Preferiti"].map(l=>`<button class="tab" data-l="${l}">${l}</button>`).join("");
-  $("#fcBtns").querySelectorAll(".tab").forEach(b=>b.onclick=()=>startFlash(b.dataset.l));
-  doSearch(); showLevel("N5");
+    data = await r.json();
+  }catch(e){ $("#app").innerHTML = `<p class="count" style="margin-top:20px">${KG.t("connFail")}</p>`; return; }
+  KG.startApp(data);
 }
-function showTab(t){
-  cur = t;
-  document.querySelectorAll(".tab[data-t]").forEach(b=>b.classList.toggle("on", b.dataset.t===t));
-  ["cerca","livelli","quiz","flash","pref"].forEach(x=>$("#t-"+x).classList.toggle("hide", x!==t));
-  if(t==="pref") renderPref();
-  if(t==="quiz" && !$("#qzBox").innerHTML) startQuiz("N5");
-  if(t==="flash" && !$("#fcBox").innerHTML) startFlash("N5");
-}
-function doSearch(){
-  const raw = $("#q").value.trim();
-  let res;
-  if(!raw){ res = K.filter(k=>k.l==="N5"); $("#qCount").textContent = "Scrivi una parola per cercare. Intanto ecco i kanji del livello N5:"; }
-  else{
-    const n = norm(raw), h = kata2hira(/^[a-z' ]+$/i.test(raw) ? R2H(raw.replace(/[' ]/g,"")) : raw);
-    const score = k => {
-      if(raw.includes(k.c)) return 0;
-      if(k.m.some(m=>norm(m)===n)) return 1;
-      if((k.k||[]).some(r=>kata2hira(r).replace(/[.\-]/g,"")===h) || (k.o||[]).some(r=>kata2hira(r)===h)) return 2;
-      if(k.m.some(m=>norm(m).includes(n))) return 3;
-      if((k.w||[]).some(w=>w[1]===h||w[2]===raw.toLowerCase()||norm(w[3]).includes(n))) return 4;
-      return 9;
-    };
-    res = K.map(k=>[score(k),k]).filter(x=>x[0]<9).sort((a,b)=>a[0]-b[0]||(!!a[1].e-!!b[1].e)||((a[1].f||99999)-(b[1].f||99999))).map(x=>x[1]);
-    $("#qCount").textContent = res.length ? `${res.length} risultati` + (res.length>120?" (mostro i primi 120)":"") : "Nessun risultato. Prova con un'altra parola.";
-  }
-  $("#qGrid").innerHTML = res.slice(0,120).map(card).join(""); bindCards($("#qGrid"));
-}
-let lvList=[], lvShown=0;
-function showLevel(l){
-  $("#lvBtns").querySelectorAll(".tab").forEach(b=>b.classList.toggle("on", b.dataset.l===l));
-  lvList = l==="Altri" ? K.filter(k=>!k.l) : K.filter(k=>k.l===l);
-  lvShown = 0; $("#lvGrid").innerHTML=""; moreLevel();
-  $("#lvCount").textContent = `${lvList.length} kanji` + (l==="Altri" ? " fuori dal JLPT (significato in inglese)" : ` del livello ${l}`);
-}
-function moreLevel(){
-  const part = lvList.slice(lvShown, lvShown+120); lvShown += part.length;
-  const tmp = document.createElement("div"); tmp.innerHTML = part.map(card).join("");
-  bindCards(tmp); [...tmp.children].forEach(c=>$("#lvGrid").appendChild(c));
-  $("#lvMore").classList.toggle("hide", lvShown>=lvList.length);
-}
-$("#lvMore").onclick = moreLevel;
-
-/* quiz */
-let qz = null;
-const shuffle = a => { for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]} return a };
-function startQuiz(l){
-  $("#qzBtns").querySelectorAll(".tab").forEach(b=>b.classList.toggle("on", b.dataset.l===l));
-  const pool = K.filter(k=>k.l===l && !k.e && k.m.length);
-  qz = {l, pool, qs: shuffle(pool.slice()).slice(0,10), i:0, ok:0};
-  nextQ();
-}
-function nextQ(){
-  if(qz.i>=qz.qs.length){
-    $("#qzBox").innerHTML = `<div class="flash"><div style="font-size:60px">${qz.ok>=8?"🎉":qz.ok>=5?"👍":"💪"}</div><h2>${qz.ok} su ${qz.qs.length}</h2><p>Quiz livello ${qz.l} completato.</p><button class="btn" onclick="startQuiz('${qz.l}')">Rifai il quiz</button></div>`; return;
-  }
-  const k = qz.qs[qz.i];
-  const wrong = shuffle(qz.pool.filter(x=>x.c!==k.c && x.m[0]!==k.m[0])).slice(0,3);
-  const opts = shuffle([k,...wrong]);
-  $("#qzBox").innerHTML = `<p class="count">Domanda ${qz.i+1} di ${qz.qs.length} · Punti: ${qz.ok}</p><div class="qk">${esc(k.c)}</div><p style="text-align:center;color:var(--grey)">Cosa significa?</p><div class="opts">${opts.map(o=>`<button class="opt" data-c="${esc(o.c)}">${esc(o.m.slice(0,2).join(", "))}</button>`).join("")}</div>`;
-  $("#qzBox").querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
-    const right = b.dataset.c===k.c; if(right) qz.ok++;
-    $("#qzBox").querySelectorAll(".opt").forEach(x=>{x.disabled=true; if(x.dataset.c===k.c) x.classList.add("ok")});
-    if(!right) b.classList.add("ko");
-    const info = document.createElement("p"); info.style.textAlign="center";
-    info.innerHTML = `<b>${esc(k.c)}</b> · ${esc((k.k[0]||k.o[0]||""))} — ${esc(k.m.join(", "))}<br><button class="btn small" style="margin-top:10px">Avanti →</button>`;
-    info.querySelector("button").onclick=()=>{qz.i++; nextQ()};
-    $("#qzBox").appendChild(info);
-  });
-}
-
-/* flashcard */
-let fc = null;
-function startFlash(l){
-  $("#fcBtns").querySelectorAll(".tab").forEach(b=>b.classList.toggle("on", b.dataset.l===l));
-  const list = l==="Preferiti" ? K.filter(k=>favs.has(k.c)) : K.filter(k=>k.l===l);
-  fc = {list: shuffle(list.slice()), i:0, back:false, l};
-  drawFlash();
-}
-function drawFlash(){
-  if(!fc.list.length){ $("#fcBox").innerHTML = `<p class="count">Nessun kanji qui. Aggiungi qualche preferito con ☆ dalla scheda di un kanji.</p>`; return; }
-  const k = fc.list[fc.i];
-  $("#fcBox").innerHTML = `<p class="count">Carta ${fc.i+1} di ${fc.list.length} · tocca la carta per girarla</p>
-   <div class="flash" id="fcCard">${fc.back
-     ? `<div style="font-size:54px;font-family:'Noto Serif JP',serif">${esc(k.c)}</div><h2 style="margin:6px 0">${esc(k.m.join(", "))}${k.e?'<span class="en">in inglese</span>':""}</h2><p>${esc(k.o.join("、"))} · ${esc(k.k.join("、"))}</p>${k.w[0]?`<p>${esc(k.w[0][0])} (${esc(k.w[0][1])}) = ${esc(k.w[0][3])}</p>`:""}`
-     : `<div class="qk">${esc(k.c)}</div>`}</div>
-   <div style="display:flex;gap:10px;justify-content:center;margin-top:12px"><button class="btn ghost" id="fcPrev">← Indietro</button><button class="btn" id="fcNext">Avanti →</button></div>`;
-  $("#fcCard").onclick=()=>{fc.back=!fc.back; drawFlash()};
-  $("#fcPrev").onclick=()=>{fc.i=(fc.i-1+fc.list.length)%fc.list.length; fc.back=false; drawFlash()};
-  $("#fcNext").onclick=()=>{fc.i=(fc.i+1)%fc.list.length; fc.back=false; drawFlash()};
-}
-function renderPref(){
-  const list = K.filter(k=>favs.has(k.c));
-  $("#prCount").textContent = list.length ? `${list.length} preferiti` : "Non hai ancora preferiti. Apri un kanji e tocca ☆ Aggiungi ai preferiti.";
-  $("#prGrid").innerHTML = list.map(card).join(""); bindCards($("#prGrid"));
-}
-
 function start(){ hasAccess() ? initApp() : initLanding() }
 start();
 </script>
