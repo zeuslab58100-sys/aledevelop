@@ -263,7 +263,7 @@ async function initLanding(){
       const r = await fetch(CONFIG.apiBase + "/api/restore", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({orderID: $("#rsOrder").value, email: $("#rsEmail").value})});
       const d = await r.json();
       if(d.token){ ls.set(LS_KEY, JSON.stringify({token:d.token, order:$("#rsOrder").value.trim().toUpperCase(), at:Date.now()})); start(); }
-      else alertBox(d.error==="too_many_devices" ? "Hai già usato questo acquisto su 5 dispositivi. Scrivici se hai bisogno di aiuto." : "Codice d'ordine o email non trovati. Controlla la ricevuta PayPal.");
+      else alertBox(d.error==="too_many_devices" ? "Hai già usato questo acquisto su tutti i dispositivi inclusi. Per aggiungerne un altro scrivi a <b>zeuslab58100@gmail.com</b> indicando l'email del tuo PayPal: te lo sblocchiamo noi." : "Codice d'ordine o email non trovati. Controlla la ricevuta PayPal.");
     }catch(e){ alertBox("Connessione non riuscita. Riprova tra poco."); }
   };
   if(!CONFIG.paypalClientId || !CONFIG.apiBase){ $("#paypalMissing").classList.remove("hide"); return; }
@@ -281,7 +281,7 @@ async function initLanding(){
         const d = await r.json();
         if (d.token){
           ls.set(LS_KEY, JSON.stringify({token:d.token, order:d.orderID, at:Date.now()}));
-          alertBox(`Grazie! Pagamento completato.<br>Il tuo <b>codice d'ordine</b> è <b>${esc(d.orderID)}</b>.<br>Conservalo insieme all'email del tuo PayPal${d.email?` (<b>${esc(d.email)}</b>)`:""}: ti servono per usare KanjiGo Web su altri dispositivi (fino a 5).`);
+          alertBox(`Grazie! Pagamento completato.<br>Il tuo <b>codice d'ordine</b> è <b>${esc(d.orderID)}</b>.<br>Conservalo insieme all'email del tuo PayPal${d.email?` (<b>${esc(d.email)}</b>)`:""}: ti servono per usare KanjiGo Web su un secondo dispositivo. Per altri dispositivi scrivi a <b>zeuslab58100@gmail.com</b>.`);
           start();
         } else alertBox("Il pagamento non risulta completato. Se ti è stato addebitato, scrivici con la ricevuta PayPal.");
       },
