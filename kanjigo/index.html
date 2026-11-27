@@ -205,7 +205,7 @@ footer{margin:40px 0 0;padding:22px 0 40px;border-top:1px solid var(--line);font
   <p>Questo lavoro usa KANJIDIC2 e JMdict dell'<a href="https://www.edrdg.org/" target="_blank" rel="noopener">Electronic Dictionary Research and Development Group (EDRDG)</a>, usati in conformità con la <a href="https://www.edrdg.org/edrdg/licence.html" target="_blank" rel="noopener">licenza del Gruppo</a> (CC BY-SA 4.0), tramite <a href="https://github.com/scriptin/jmdict-simplified" target="_blank" rel="noopener">jmdict-simplified</a>, e vocaboli da Open JLPT. Le traduzioni italiane sono adattate da KanjiGo e distribuite con la stessa licenza (CC BY-SA 4.0). Alcune traduzioni sono in revisione. Composizione grafica dei kanji: <a href="https://kanjivg.tagaini.net/" target="_blank" rel="noopener">KanjiVG</a> (CC BY-SA 3.0).</p>
 </div></footer>
 
-<script src="app.js?v=3"></script>
+<script src="app.js?v=4"></script>
 <script>
 /* ======== CONFIG ======== */
 const CONFIG = {
@@ -235,7 +235,7 @@ let COUPON = null;
 async function initLanding(){
   $("#landing").classList.remove("hide");
   try{
-    const prev = await (await fetch("data/kanji_preview.json?v=2")).json();
+    const prev = await (await fetch("data/kanji_preview.json?v=3")).json();
     KG.setLang("it"); KG.load(prev, false);
     $("#previewGrid").innerHTML = prev.K.map(KG.card).join(""); KG.bindCards($("#previewGrid"));
   }catch(e){}
@@ -319,7 +319,7 @@ async function initApp(){
   let data;
   try{
     const local = location.hostname === "localhost" && !getToken();
-    const r = local ? await fetch("data/kanji_full.json") : await fetch(CONFIG.apiBase + "/api/data?v=3", {headers:{Authorization:"Bearer "+getToken()}});
+    const r = local ? await fetch("data/kanji_full.json") : await fetch(CONFIG.apiBase + "/api/data?v=4", {headers:{Authorization:"Bearer "+getToken()}});
     if(r.status===401){ ls.set(LS_KEY,""); location.reload(); return; }
     data = await r.json();
   }catch(e){ $("#app").innerHTML = `<p class="count" style="margin-top:20px">${KG.t("connFail")}</p>`; return; }
